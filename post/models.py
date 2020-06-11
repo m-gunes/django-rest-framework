@@ -16,7 +16,7 @@ class Post(models.Model):
     image = models.ImageField(upload_to='images/', null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True) # Automatically set the field to now every time the object is saved.
     created_at = models.DateTimeField(auto_now_add=True) # Automatically set the field to now when the object is first created.
-    modified_by_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='user')
+    modified_by_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='user', blank=True)
 
     def get_unique_slug(self):
         new_slug = slugify(self.title.replace('ı', 'i'))
