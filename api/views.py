@@ -7,18 +7,21 @@ from post.models import Post
 from .serializers import PostSerializer, PostCreateSerializer, PostUpdateSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
+from .paginations import PostPagination
 #custom permission
 from .permissions import isOwnerOrSuperUser
 
 class PostListAPIView(ListAPIView):
     # queryset = Post.objects.all() # tumunu cekiyor
     serializer_class = PostSerializer
-    
-    #arama
+    #arama SearchFilter and siralama OrderingFilter
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['title', 'content']
     # SearchFilter /api/post/list/?search=es
     # OrderingFilter /api/post/list/?search=es&ordering=title (ordering=-title : ters siralama | reverse orderings)
+    
+    # pagination
+    pagination_class = PostPagination
 
     # filtreleme
     def get_queryset(self):
