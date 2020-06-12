@@ -5,12 +5,18 @@ from post.models import Post
 
 class PostSerializer(serializers.ModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='post:detail', lookup_field='slug')
-
+    username = serializers.SerializerMethodField()
+    # username = serializers.SerializerMethodField(method_name='get_username_falan') diyerek farkli method name yazarakta oluyor
     class Meta:
         model = Post
-        # fields = ['id', 'title', 'content', 'draft', 'image', 'created_at', 'updated_at', 'slug']
-        fields = '__all__'
-
+        fields = ['id', 'title', 'content', 'draft', 'slug','image','updated_at',
+                'created_at', 'user', 'modified_by_user', 'username', 'url']
+        # fields = '__all__'
+        
+    def get_username(self, obj):
+        return obj.user.username
+        
+    
 
 class PostCreateSerializer(serializers.ModelSerializer):
     class Meta:
