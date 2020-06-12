@@ -20,4 +20,23 @@ class PostUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'title', 'content', 'draft', 'image']
+    
+    # def update(self, instance, validated_data):
+    #     instance.email = validated_data.get('title', instance.title)
+    #     instance.content = validated_data.get('content', instance.content)
+    #     instance.save()
+    #     return instance
+
+    # def validate_title(self, value):
+    #     if value == 'sex':
+    #         raise serializers.ValidationError('Agir ol kardes')
+    #     return value
+
+    # def validate(self, attrs):
+    #     print(attrs['title'])
+    #     if attrs['title'] == 'sex':
+    #         raise serializers.ValidationError('Agir ol kardes')
+    #     return super().validate(attrs)
+        
+    
 
