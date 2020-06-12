@@ -6,12 +6,26 @@ from rest_framework.generics import (
 from post.models import Post
 from .serializers import PostSerializer, PostCreateSerializer, PostUpdateSerializer
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.filters import SearchFilter, OrderingFilter
 #custom permission
 from .permissions import isOwnerOrSuperUser
 
 class PostListAPIView(ListAPIView):
-    queryset = Post.objects.all()
+    # queryset = Post.objects.all() # tumunu cekiyor
     serializer_class = PostSerializer
+    
+    #arama
+    filter_backends = [SearchFilter, OrderingFilter]
+    search_fields = ['title', 'content']
+    # SearchFilter /api/post/list/?search=es
+    # OrderingFilter /api/post/list/?search=es&ordering=title (ordering=-title : ters siralama | reverse orderings)
+
+    # filtreleme
+    def get_queryset(self):
+        queryset = Post.objects.filter(draft=False)
+        return queryset
+    #__note: once data filtrelenip gonderiliyor ve search yapildiginda bu filtre dikkate aliniyor
+    
 
 
 class PostDetailAPIView(RetrieveAPIView):
