@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
 
     'post.apps.PostConfig',
+    'comment.apps.CommentConfig'
 ]
 
 MIDDLEWARE = [
