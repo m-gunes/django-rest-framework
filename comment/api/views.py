@@ -20,7 +20,17 @@ class CommentListAPIView(ListAPIView):
    serializer_class = CommentListSerializer
 
    def get_queryset(self):
-      return Comment.objects.filter(parent=None)
+      queryset = Comment.objects.filter(parent=None)
+      query = self.request.GET.get('id')
+      if query:
+         # post'a yapilan yorumlari getiriyoruz
+         # http://127.0.0.1:8000/api/comment/list/?id=10
+         # id'si 10 olan post'un yorumlarini getir
+         queryset = queryset.filter(post=query)
+      return queryset
+      
+   
+      
 
 
 class CommentDeleteAPIView(DestroyAPIView):
