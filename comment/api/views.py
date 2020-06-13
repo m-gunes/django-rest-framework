@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from comment.models import Comment
 from .serializers import CommentCreateSerializer, CommentListSerializer, CommentDeleteUpdateSerializer
 from .permissions import isOwner
+from .paginations import CommentPagination
 
 # Create your views here.
 class CommentCreateAPIView(CreateAPIView):
@@ -18,6 +19,8 @@ class CommentCreateAPIView(CreateAPIView):
 class CommentListAPIView(ListAPIView):
    # queryset = Comment.objects.all()
    serializer_class = CommentListSerializer
+   pagination_class = CommentPagination
+
 
    def get_queryset(self):
       queryset = Comment.objects.filter(parent=None)
