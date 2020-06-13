@@ -24,12 +24,12 @@ class CommentListAPIView(ListAPIView):
 
    def get_queryset(self):
       queryset = Comment.objects.filter(parent=None)
-      query = self.request.GET.get('id')
-      if query:
+      post_id = self.request.GET.get('post_id')
+      if post_id:
          # post'a yapilan yorumlari getiriyoruz
-         # http://127.0.0.1:8000/api/comment/list/?id=10
+         # http://127.0.0.1:8000/api/comment/list/?post_id=10
          # id'si 10 olan post'un yorumlarini getir
-         queryset = queryset.filter(post=query)
+         queryset = queryset.filter(post=post_id)
       return queryset
       
    
