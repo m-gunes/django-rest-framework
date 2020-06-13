@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from comment.models import Comment
 from .serializers import CommentCreateSerializer, CommentListSerializer, CommentDeleteUpdateSerializer
@@ -43,7 +43,7 @@ class CommentDeleteAPIView(DestroyAPIView):
    permission_classes = [IsAuthenticated, isOwner]
 
 
-class CommentUpdateAPIView(RetrieveUpdateAPIView):
+class CommentUpdateAPIView(UpdateAPIView, RetrieveAPIView):
    queryset = Comment.objects.all()
    serializer_class = CommentDeleteUpdateSerializer
    lookup_field = 'pk'
