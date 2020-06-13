@@ -15,7 +15,10 @@ class Comment(models.Model):
       ordering = ['-created_at']
 
    def __str__(self):
-      return self.post.title + " " + self.user.username
+      # return self.post.title + " " + self.user.username
+      return self.content
+      
+   
 
 
    # bir yorumun altindaki yorumlari bulmayi saglayacak. Yani comment'e ait yorumlar
