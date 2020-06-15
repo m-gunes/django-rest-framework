@@ -7,6 +7,7 @@ from post.models import Post
 from .serializers import PostSerializer, PostCreateSerializer, PostUpdateSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.mixins import ListModelMixin
 from .paginations import PostPagination
 #custom permission
 from .permissions import isOwnerOrSuperUser
@@ -57,10 +58,14 @@ class PostDeleteAPIView(DestroyAPIView):
     permission_classes = [IsAuthenticated, isOwnerOrSuperUser]
 
 
-class PostCreateAPIView(CreateAPIView):
+class PostCreateAPIView(CreateAPIView, ListModelMixin):
     queryset = Post.objects.all()
     serializer_class = PostCreateSerializer
     permission_classes = [IsAuthenticated]
+
+    # mixin usage: boylece /api/post/create/ url'i Allow: GET 'e izin veriyor ve datalari da gonderebiliyoruz
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
     # def perform_create(self, serializer):
     #     serializer.save(user=self.request.user)
