@@ -3,12 +3,14 @@ from rest_framework.permissions import IsAuthenticated
 from favorite.models import Favorite
 from .serializers import FavoriteListCreateSerializer
 from .permissions import isOwner
+from .paginations import FavoritePagination
+
 
 class FavoriteListCreateAPIView(ListCreateAPIView):
    queryset = Favorite.objects.all()
    serializer_class = FavoriteListCreateSerializer
    permission_classes = [IsAuthenticated, isOwner]
-
+   pagination_class = FavoritePagination
 
    # istegi gonderen kisinin kendi favorilerini gosterir.
    def get_queryset(self):
