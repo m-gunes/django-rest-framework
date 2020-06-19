@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.core.exceptions import ObjectDoesNotExist
 
 # Create your models here.
 
@@ -14,28 +15,35 @@ class Profile(models.Model):
       return self.user.username
       
 
-
-@receiver(post_save, sender=User) # User'a kayit islemi oldugunda
-def create_user_profile(sender, instance, created, **kwargs):
-   if created:
-      Profile.objects.create(user=instance)
-
 @receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-   instance.profile.save()
-   
-    
+def create_user_profile(sender, instance, created, **kwargs):
+    try:
+        instance.profile.save()
+    except ObjectDoesNotExist:
+        Profile.objects.create(user=instance)
+
+
 # her kullanici kaydi olusturuldugunda otamatik Profile kaydi olusturulmali.
 # Bunun icin signals kullaniyoruz
 # kayit isleminin yapilmasi icin post_save
 # dispatch bu isin tetikleme kismi
 
 
-
+# Another usage
+# @receiver(post_save, sender=User) # User'a kayit islemi oldugunda
+# def create_user_profile(sender, instance, created, **kwargs):
+#    if not created:
+#       return
+#    Profile.objects.create(user=instance)
+#    instance.profile.save()
 
 # Another usage
-# @receiver(post_save, sender=User) 
+# @receiver(post_save, sender=User) # User'a kayit islemi oldugunda
 # def create_user_profile(sender, instance, created, **kwargs):
 #    if created:
 #       Profile.objects.create(user=instance)
+
+# @receiver(post_save, sender=User)
+# def save_user_profile(sender, instance, **kwargs):
 #    instance.profile.save()
+    
