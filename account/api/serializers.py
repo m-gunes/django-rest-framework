@@ -1,6 +1,8 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
+from rest_framework.serializers import ModelSerializer, Serializer
 from account.models import Profile
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
 
 
 
@@ -27,3 +29,18 @@ class UserSerializer(ModelSerializer):
       profile_serializer.is_valid(raise_exception=True)
       profile_serializer.save()
       return super(UserSerializer, self).update(instance, validated_data)
+
+
+
+class ChangePasswordSerializer(Serializer):
+   old_password = serializers.CharField(required=True)
+   new_password = serializers.CharField(required=True)
+
+   class Meta:
+      model = User
+
+   def validate_new_password(self, value):
+      validate_password(value) # girilen sifrenin guclu olup olmadigina bakiyoruz
+      return value
+      
+   
