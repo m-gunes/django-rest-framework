@@ -44,3 +44,22 @@ class ChangePasswordSerializer(Serializer):
       return value
       
    
+
+class RegisterSerializer(ModelSerializer):
+   password = serializers.CharField(write_only=True) # required=True
+
+   class Meta:
+      model = User
+      fields = ('id', 'username', 'password')
+
+   def validate(self, attrs):
+      validate_password(attrs['password']) # girilen password guclu mu
+      return attrs
+   
+   def create(self, validated_data):
+      user = User.objects.create(
+         username = validated_data['username']
+      )
+      user.set_password(validated_data['password'])
+      user.save()
+      return user

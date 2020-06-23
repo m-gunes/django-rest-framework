@@ -27,7 +27,7 @@ urlpatterns = [
     path('api/post/', include('post.api.urls')),
     path('api/comment/', include('comment.api.urls')),
     path('api/favorite/', include('favorite.api.urls')),
-    path('api/profile/', include('account.api.urls')),
+    path('api/user/', include('account.api.urls')),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
