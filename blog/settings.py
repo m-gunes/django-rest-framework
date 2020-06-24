@@ -142,7 +142,16 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication' # Bunu admin girisinden sonra rest framework'un arayuzunde login oldugumu gorebilmek icin yaptim. yoksa rest framework arayuzunden her seferinde api/token/ url'inden login olmam geregecekti
-    )
+    ),
+     'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '5/minute',
+        'user': '1000/day',
+        'post': '10/minute',
+    }
 }
 
 SIMPLE_JWT = {

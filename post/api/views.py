@@ -8,6 +8,7 @@ from .serializers import PostSerializer, PostCreateSerializer, PostUpdateSeriali
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import ListModelMixin
+from rest_framework.throttling import ScopedRateThrottle
 from .paginations import PostPagination
 #custom permission
 from .permissions import isOwnerOrSuperUser
@@ -20,6 +21,8 @@ class PostListAPIView(ListAPIView):
     search_fields = ['title', 'content']
     # SearchFilter /api/post/list/?search=es
     # OrderingFilter /api/post/list/?search=es&ordering=title (ordering=-title : ters siralama | reverse orderings)
+    throttle_classes = [ScopedRateThrottle]
+    throttle_scope = 'post'
     
     # pagination
     pagination_class = PostPagination
