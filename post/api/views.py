@@ -13,6 +13,7 @@ from .paginations import PostPagination
 #custom permission
 from .permissions import isOwnerOrSuperUser
 
+
 class PostListAPIView(ListAPIView):
     # queryset = Post.objects.all() # tumunu cekiyor
     serializer_class = PostSerializer
@@ -70,5 +71,5 @@ class PostCreateAPIView(CreateAPIView, ListModelMixin):
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
-    # def perform_create(self, serializer):
-    #     serializer.save(user=self.request.user)
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
