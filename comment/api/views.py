@@ -10,6 +10,7 @@ from .paginations import CommentPagination
 class CommentCreateAPIView(CreateAPIView):
    queryset = Comment.objects.all()
    serializer_class = CommentCreateSerializer
+   permission_classes = [IsAuthenticated]
 
    def perform_create(self, serializer):
       serializer.save(user=self.request.user) # comment'i atan user'i kayit ediyoruz. selectboxtan secilen user degil
